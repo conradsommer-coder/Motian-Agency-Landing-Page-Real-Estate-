@@ -17,19 +17,38 @@ import {
   Minus,
   Mail,
   Phone,
-  Building2
+  Building2,
+  Languages,
+  X,
+  Menu
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // --- Components ---
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'en' ? 'es' : 'en';
+    i18n.changeLanguage(newLang);
+  };
+
+  const navLinks = [
+    { name: t('nav.home'), href: '#' },
+    { name: t('nav.gap'), href: '#problem' },
+    { name: t('nav.solutions'), href: '#solution' },
+    { name: t('nav.method'), href: '#process' },
+    { name: t('nav.contact'), href: '#contact' },
+  ];
 
   return (
     <motion.nav
@@ -50,12 +69,126 @@ const Navbar = () => {
         </div>
         
         <div className="hidden md:flex items-center gap-8 text-sm font-medium uppercase tracking-widest text-white/70">
-          <a href="#problem" className="hover:text-white transition-colors">The Gap</a>
-          <a href="#solution" className="hover:text-white transition-colors">Solutions</a>
-          <a href="#process" className="hover:text-white transition-colors">Method</a>
-          <a href="#audit" className="btn-secondary py-2 px-6 text-xs">Free Audit</a>
+          {navLinks.map((link) => (
+            <a key={link.name} href={link.href} className="hover:text-white transition-colors">
+              {link.name}
+            </a>
+          ))}
+          
+          <button 
+            onClick={toggleLanguage}
+            className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-brand-gold hover:text-white transition-colors border border-brand-gold/30 px-3 py-1.5 rounded-full"
+          >
+            {i18n.language === 'en' ? (
+              <>
+                <span className="text-sm">🇲🇽</span> ES
+              </>
+            ) : (
+              <>
+                <span className="text-sm">🇺🇸</span> EN
+              </>
+            )}
+          </button>
+
+          <a href="#audit" className="btn-secondary py-2 px-6 text-xs">
+            {t('audit.cta')}
+          </a>
         </div>
+
+        {/* Mobile Menu Toggle */}
+        <button 
+          className="md:hidden z-50 text-white p-2"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          {isMobileMenuOpen ? <X size={32} /> : <Menu size={32} />}
+        </button>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-0 z-40 bg-brand-dark/98 backdrop-blur-2xl flex flex-col justify-center px-12"
+          >
+            {/* Background decorative element */}
+            <div className="absolute top-0 right-0 w-full h-full overflow-hidden pointer-events-none opacity-10">
+              <div className="absolute -top-24 -right-24 w-96 h-96 bg-brand-gold rounded-full blur-[120px]" />
+            </div>
+
+            <div className="flex flex-col gap-8 relative z-10">
+              {navLinks.map((link, i) => (
+                <motion.a 
+                  key={link.name} 
+                  href={link.href} 
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 + i * 0.1 }}
+                  className="text-4xl font-bold uppercase tracking-tighter hover:text-brand-gold transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <span className="text-brand-gold/30 text-sm font-mono mr-4">0{i + 1}</span>
+                  {link.name}
+                </motion.a>
+              ))}
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="pt-8 mt-8 border-t border-white/10 flex flex-col gap-8"
+              >
+                <button 
+                  onClick={() => {
+                    toggleLanguage();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-4 text-xl uppercase tracking-widest text-brand-gold font-bold"
+                >
+                  {i18n.language === 'en' ? (
+                    <>
+                      <span className="text-2xl">🇲🇽</span> Español
+                    </>
+                  ) : (
+                    <>
+                      <span className="text-2xl">🇺🇸</span> English
+                    </>
+                  )}
+                </button>
+                
+                <a 
+                  href="#audit" 
+                  className="btn-primary text-center py-5 text-lg"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {t('audit.cta')}
+                </a>
+              </motion.div>
+            </div>
+
+            {/* Footer info in menu */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+              className="absolute bottom-12 left-12 right-12 flex justify-between items-end"
+            >
+              <div className="space-y-1">
+                <p className="text-[10px] uppercase tracking-[0.3em] text-white/30">Connect</p>
+                <p className="text-xs font-medium">hello@motionagency.mx</p>
+              </div>
+              <img 
+                src="https://res.cloudinary.com/dr78wne7t/image/upload/q_auto/f_auto/v1775596559/logo_MOTIONAGENCY-05_gw5nbl.png" 
+                alt="Logo" 
+                className="h-4 opacity-20"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 };
@@ -63,6 +196,7 @@ const Navbar = () => {
 const Hero = () => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
+  const { t } = useTranslation();
 
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
@@ -88,23 +222,23 @@ const Hero = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <span className="inline-block py-1 px-3 rounded-full border border-white/20 text-[10px] uppercase tracking-[0.3em] mb-6 text-white/60">
-              Strategic Real Estate Marketing • Los Cabos
+              {t('hero.badge')}
             </span>
             <h1 className="text-5xl md:text-8xl font-bold leading-[0.9] mb-8 text-gradient">
-              Better presentation. <br />
-              Better positioning. <br />
-              <span className="italic font-serif font-normal">Better</span> leads.
+              {t('hero.title1')} <br />
+              {t('hero.title2')} <br />
+              <span className="italic font-serif font-normal">{t('hero.title3')}</span> {t('hero.title4')}
             </h1>
             <p className="text-xl md:text-2xl text-white/60 max-w-2xl mb-12 leading-relaxed">
-              Motion helps developers with branding, sales materials, websites, visual production, paid campaigns, and tracking to create a stronger lead generation system.
+              {t('hero.desc')}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6">
               <a href="#audit" className="btn-primary flex items-center justify-center gap-2">
-                Get a Free Development Marketing Audit <ArrowRight size={18} />
+                {t('hero.cta1')} <ArrowRight size={18} />
               </a>
               <a href="#solution" className="btn-secondary flex items-center justify-center">
-                How We Help
+                {t('hero.cta2')}
               </a>
             </div>
           </motion.div>
@@ -130,11 +264,12 @@ const Hero = () => {
 };
 
 const ProblemSection = () => {
+  const { t } = useTranslation();
   const problems = [
-    { title: "Weak Branding", desc: "Generic identities that fail to resonate with premium buyers." },
-    { title: "Generic Sales Materials", desc: "Static brochures and outdated tools that kill momentum." },
-    { title: "Low-Quality Leads", desc: "High volume, zero conversion. Marketing that misses the target." },
-    { title: "Disconnected Campaigns", desc: "Creative work and paid traffic working in silos without tracking." }
+    { title: t('problem.p1.title'), desc: t('problem.p1.desc') },
+    { title: t('problem.p2.title'), desc: t('problem.p2.desc') },
+    { title: t('problem.p3.title'), desc: t('problem.p3.desc') },
+    { title: t('problem.p4.title'), desc: t('problem.p4.desc') }
   ];
 
   return (
@@ -142,12 +277,12 @@ const ProblemSection = () => {
       <div className="section-padding">
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <div>
-            <span className="text-brand-gold font-display font-bold text-sm uppercase tracking-widest mb-4 block">The Challenge</span>
+            <span className="text-brand-gold font-display font-bold text-sm uppercase tracking-widest mb-4 block">{t('problem.badge')}</span>
             <h2 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">
-              Why strong developments <br /> still struggle to generate <br /> quality leads.
+              {t('problem.title')}
             </h2>
             <p className="text-lg text-white/50 mb-8 leading-relaxed">
-              Most developers focus 99% on the brick and mortar, leaving the funnel as an afterthought. A strong project with a weak funnel will always underperform in a competitive market.
+              {t('problem.desc')}
             </p>
             <div className="space-y-4">
               {problems.map((p, i) => (
@@ -192,26 +327,27 @@ const ProblemSection = () => {
 };
 
 const SolutionSection = () => {
+  const { t } = useTranslation();
   const serviceGroups = [
     {
-      title: "Brand & Positioning",
-      items: ["Branding", "Messaging", "Project story and value proposition"]
+      title: t('solution.g1.title'),
+      items: t('solution.g1.items', { returnObjects: true }) as string[]
     },
     {
-      title: "Sales Materials",
-      items: ["Sales presentations", "Mobile sales presentations", "Brochures / PDFs", "Broker kits", "WhatsApp-ready materials"]
+      title: t('solution.g2.title'),
+      items: t('solution.g2.items', { returnObjects: true }) as string[]
     },
     {
-      title: "Digital Presence",
-      items: ["Landing pages", "Full websites", "SEO structure", "Lead capture funnels"]
+      title: t('solution.g3.title'),
+      items: t('solution.g3.items', { returnObjects: true }) as string[]
     },
     {
-      title: "Visual Production",
-      items: ["Photography", "Video", "Drone", "Launch content", "Lifestyle visual direction"]
+      title: t('solution.g4.title'),
+      items: t('solution.g4.items', { returnObjects: true }) as string[]
     },
     {
-      title: "Performance & Tracking",
-      items: ["Meta Ads", "Google Ads", "Retargeting", "Conversion tracking", "Lead attribution", "Funnel optimization"]
+      title: t('solution.g5.title'),
+      items: t('solution.g5.items', { returnObjects: true }) as string[]
     }
   ];
 
@@ -219,9 +355,9 @@ const SolutionSection = () => {
     <section id="solution" className="relative overflow-hidden">
       <div className="section-padding">
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <span className="text-brand-gold font-display font-bold text-sm uppercase tracking-widest mb-4 block">How We Help</span>
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">How Motion Agency can help.</h2>
-          <p className="text-lg text-white/50">We help developers build the materials, systems, and campaigns needed to present their project more clearly and generate higher-quality leads.</p>
+          <span className="text-brand-gold font-display font-bold text-sm uppercase tracking-widest mb-4 block">{t('solution.badge')}</span>
+          <h2 className="text-4xl md:text-6xl font-bold mb-6">{t('solution.title')}</h2>
+          <p className="text-lg text-white/50">{t('solution.desc')}</p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -249,15 +385,8 @@ const SolutionSection = () => {
 };
 
 const OutcomesSection = () => {
-  const outcomes = [
-    "Stronger first impression",
-    "More professional perception",
-    "Clearer market positioning",
-    "Better sales tools for brokers",
-    "Improved lead capture",
-    "Higher-quality inquiries",
-    "Full lead attribution clarity"
-  ];
+  const { t } = useTranslation();
+  const outcomes = t('outcomes.items', { returnObjects: true }) as string[];
 
   return (
     <section className="bg-white text-brand-dark overflow-hidden">
@@ -292,7 +421,7 @@ const OutcomesSection = () => {
                 referrerPolicy="no-referrer"
               />
               <h2 className="text-4xl md:text-6xl font-bold leading-tight">
-                What this improves <br /> for your project.
+                {t('outcomes.title')}
               </h2>
             </div>
             <div className="space-y-4">
@@ -304,7 +433,7 @@ const OutcomesSection = () => {
               ))}
             </div>
             <button className="mt-12 btn-primary !bg-brand-dark !text-white hover:!bg-brand-gold">
-              See Our Method
+              {t('outcomes.cta')}
             </button>
           </div>
         </div>
@@ -314,24 +443,25 @@ const OutcomesSection = () => {
 };
 
 const PerformanceSection = () => {
+  const { t } = useTranslation();
   return (
     <section className="bg-brand-gray border-y border-white/5">
       <div className="section-padding">
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <div>
-            <span className="text-brand-gold font-display font-bold text-sm uppercase tracking-widest mb-4 block">Performance First</span>
-            <h2 className="text-4xl md:text-6xl font-bold mb-8">Built for presentation <br /> and performance.</h2>
+            <span className="text-brand-gold font-display font-bold text-sm uppercase tracking-widest mb-4 block">{t('performance.badge')}</span>
+            <h2 className="text-4xl md:text-6xl font-bold mb-8">{t('performance.title')}</h2>
             <p className="text-lg text-white/50 leading-relaxed mb-8">
-              We connect high-end creative work with precision-targeted paid traffic. Our systems ensure every lead is tracked, attributed, and optimized for maximum ROI.
+              {t('performance.desc')}
             </p>
             <div className="grid grid-cols-2 gap-8">
               <div>
                 <p className="text-2xl font-bold text-white mb-2">100%</p>
-                <p className="text-xs text-white/40 uppercase tracking-widest">Lead Attribution</p>
+                <p className="text-xs text-white/40 uppercase tracking-widest">{t('performance.stat1')}</p>
               </div>
               <div>
                 <p className="text-2xl font-bold text-white mb-2">Real-time</p>
-                <p className="text-xs text-white/40 uppercase tracking-widest">Funnel Optimization</p>
+                <p className="text-xs text-white/40 uppercase tracking-widest">{t('performance.stat2')}</p>
               </div>
             </div>
           </div>
@@ -341,19 +471,19 @@ const PerformanceSection = () => {
                 <div className="w-10 h-10 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold">
                   <Zap size={20} />
                 </div>
-                <p className="font-medium">Meta & Google Ads Integration</p>
+                <p className="font-medium">{t('performance.item1')}</p>
               </div>
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold">
                   <Target size={20} />
                 </div>
-                <p className="font-medium">Precision Retargeting</p>
+                <p className="font-medium">{t('performance.item2')}</p>
               </div>
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold">
                   <BarChart3 size={20} />
                 </div>
-                <p className="font-medium">Advanced Conversion Tracking</p>
+                <p className="font-medium">{t('performance.item3')}</p>
               </div>
             </div>
           </div>
@@ -364,6 +494,7 @@ const PerformanceSection = () => {
 };
 
 const LeadMagnet = () => {
+  const { t } = useTranslation();
   return (
     <section id="audit" className="relative py-32 overflow-hidden">
       <div className="absolute inset-0 z-0">
@@ -378,23 +509,16 @@ const LeadMagnet = () => {
       
       <div className="section-padding relative z-20">
         <div className="glass p-12 md:p-20 rounded-[3rem] text-center max-w-5xl mx-auto border-brand-gold/20">
-          <span className="text-brand-gold font-display font-bold text-sm uppercase tracking-widest mb-6 block">Limited Opportunity</span>
+          <span className="text-brand-gold font-display font-bold text-sm uppercase tracking-widest mb-6 block">{t('audit.badge')}</span>
           <h2 className="text-4xl md:text-7xl font-bold mb-8 text-gradient">
-            Request a Free Project <br /> Marketing Audit.
+            {t('audit.title')}
           </h2>
           <p className="text-xl text-white/60 max-w-2xl mx-auto mb-12">
-            We will analyze your current development's positioning and funnel to identify growth opportunities.
+            {t('audit.desc')}
           </p>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-left mb-16">
-            {[
-              "Branding and positioning review",
-              "Sales presentation review",
-              "Website / landing page review",
-              "Lead generation observations",
-              "Paid traffic opportunities",
-              "Action points tailored to the project"
-            ].map((item, i) => (
+            {(t('audit.items', { returnObjects: true }) as string[]).map((item, i) => (
               <div key={i} className="flex items-center gap-3 text-sm text-white/70">
                 <CheckCircle2 className="text-brand-gold shrink-0" size={18} />
                 {item}
@@ -403,7 +527,7 @@ const LeadMagnet = () => {
           </div>
 
           <button className="btn-primary">
-            Claim Your Free Audit
+            {t('audit.cta')}
           </button>
         </div>
       </div>
@@ -412,13 +536,14 @@ const LeadMagnet = () => {
 };
 
 const ProcessSection = () => {
+  const { t } = useTranslation();
   const steps = [
-    { num: "01", title: "Review", desc: "Deep dive into your current materials and funnel." },
-    { num: "02", title: "Position", desc: "Crafting the unique narrative that justifies premium value." },
-    { num: "03", title: "Build", desc: "Developing the sales tools and digital infrastructure." },
-    { num: "04", title: "Launch", desc: "Market entry with precision-targeted campaigns." },
-    { num: "05", title: "Track", desc: "Full attribution setup to monitor every lead." },
-    { num: "06", title: "Optimize", desc: "Continuous improvement based on real performance data." }
+    { num: "01", title: t('process.s1.title'), desc: t('process.s1.desc') },
+    { num: "02", title: t('process.s2.title'), desc: t('process.s2.desc') },
+    { num: "03", title: t('process.s3.title'), desc: t('process.s3.desc') },
+    { num: "04", title: t('process.s4.title'), desc: t('process.s4.desc') },
+    { num: "05", title: t('process.s5.title'), desc: t('process.s5.desc') },
+    { num: "06", title: t('process.s6.title'), desc: t('process.s6.desc') }
   ];
 
   return (
@@ -426,10 +551,10 @@ const ProcessSection = () => {
       <div className="section-padding">
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
           <div className="max-w-2xl">
-            <span className="text-brand-gold font-display font-bold text-sm uppercase tracking-widest mb-4 block">The Method</span>
-            <h2 className="text-4xl md:text-6xl font-bold">How we improve your <br /> lead generation system.</h2>
+            <span className="text-brand-gold font-display font-bold text-sm uppercase tracking-widest mb-4 block">{t('process.badge')}</span>
+            <h2 className="text-4xl md:text-6xl font-bold">{t('process.title')}</h2>
           </div>
-          <p className="text-white/40 max-w-xs text-right">A strategic framework designed for real estate conversion and tracking.</p>
+          <p className="text-white/40 max-w-xs text-right">{t('process.desc')}</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-y-16 gap-x-12">
@@ -454,17 +579,18 @@ const ProcessSection = () => {
 };
 
 const CredibilitySection = () => {
+  const { t } = useTranslation();
   const projects = [
-    { name: "The Wellness Residences", type: "Marketing Assets", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=800" },
-    { name: "Azure Bay", type: "Sales Tools", img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800" },
-    { name: "Skyline Lofts", type: "Digital Funnel", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800" }
+    { name: "The Wellness Residences", type: t('credibility.view'), img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=800" },
+    { name: "Azure Bay", type: t('credibility.view'), img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800" },
+    { name: "Skyline Lofts", type: t('credibility.view'), img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800" }
   ];
 
   return (
     <section className="section-padding">
       <div className="text-center mb-20">
-        <h2 className="text-4xl md:text-6xl font-bold mb-6">Selected Work.</h2>
-        <p className="text-white/40">Strategic assets built for high-value real estate projects.</p>
+        <h2 className="text-4xl md:text-6xl font-bold mb-6">{t('credibility.title')}</h2>
+        <p className="text-white/40">{t('credibility.desc')}</p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-8">
@@ -482,7 +608,7 @@ const CredibilitySection = () => {
                 referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
-                <button className="w-full py-3 glass rounded-xl text-sm font-bold uppercase tracking-widest">View Project</button>
+                <button className="w-full py-3 glass rounded-xl text-sm font-bold uppercase tracking-widest">{t('credibility.view')}</button>
               </div>
             </div>
             <h3 className="text-xl font-bold">{p.name}</h3>
@@ -495,6 +621,7 @@ const CredibilitySection = () => {
 };
 
 const FormSection = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -515,9 +642,9 @@ const FormSection = () => {
       <div className="section-padding">
         <div className="grid md:grid-cols-2 gap-20">
           <div>
-            <h2 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">Let's review <br /> your project.</h2>
+            <h2 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">{t('contact.title')}</h2>
             <p className="text-lg text-white/50 mb-12">
-              Fill out the form to request your free strategic audit or schedule a discovery call with our team.
+              {t('contact.desc')}
             </p>
             
             <div className="space-y-8">
@@ -526,7 +653,7 @@ const FormSection = () => {
                   <Mail size={20} />
                 </div>
                 <div>
-                  <p className="text-xs text-white/40 uppercase tracking-widest">Email us</p>
+                  <p className="text-xs text-white/40 uppercase tracking-widest">{t('contact.email')}</p>
                   <p className="text-lg font-bold">hello@motionagency.mx</p>
                 </div>
               </div>
@@ -535,7 +662,7 @@ const FormSection = () => {
                   <Phone size={20} />
                 </div>
                 <div>
-                  <p className="text-xs text-white/40 uppercase tracking-widest">WhatsApp</p>
+                  <p className="text-xs text-white/40 uppercase tracking-widest">{t('contact.whatsapp')}</p>
                   <p className="text-lg font-bold">+52 624 123 4567</p>
                 </div>
               </div>
@@ -544,7 +671,7 @@ const FormSection = () => {
                   <Building2 size={20} />
                 </div>
                 <div>
-                  <p className="text-xs text-white/40 uppercase tracking-widest">Office</p>
+                  <p className="text-xs text-white/40 uppercase tracking-widest">{t('contact.office')}</p>
                   <p className="text-lg font-bold">Los Cabos, BCS</p>
                 </div>
               </div>
@@ -555,7 +682,7 @@ const FormSection = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-xs uppercase tracking-widest text-white/40 ml-1">Full Name</label>
+                  <label className="text-xs uppercase tracking-widest text-white/40 ml-1">{t('contact.form.name')}</label>
                   <input 
                     type="text" 
                     required
@@ -566,7 +693,7 @@ const FormSection = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs uppercase tracking-widest text-white/40 ml-1">Email Address</label>
+                  <label className="text-xs uppercase tracking-widest text-white/40 ml-1">{t('contact.form.email')}</label>
                   <input 
                     type="email" 
                     required
@@ -580,7 +707,7 @@ const FormSection = () => {
               
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-xs uppercase tracking-widest text-white/40 ml-1">Phone / WhatsApp</label>
+                  <label className="text-xs uppercase tracking-widest text-white/40 ml-1">{t('contact.form.phone')}</label>
                   <input 
                     type="tel" 
                     required
@@ -591,7 +718,7 @@ const FormSection = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs uppercase tracking-widest text-white/40 ml-1">Company or Development Name</label>
+                  <label className="text-xs uppercase tracking-widest text-white/40 ml-1">{t('contact.form.company')}</label>
                   <input 
                     type="text" 
                     required
@@ -604,34 +731,34 @@ const FormSection = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs uppercase tracking-widest text-white/40 ml-1">Project Stage</label>
+                <label className="text-xs uppercase tracking-widest text-white/40 ml-1">{t('contact.form.stage')}</label>
                 <select 
                   className="input-field appearance-none"
                   value={formData.stage}
                   onChange={e => setFormData({...formData, stage: e.target.value})}
                 >
-                  <option value="pre-launch">Pre-Launch / Planning</option>
-                  <option value="launch">Launch / Sales Started</option>
-                  <option value="construction">Under Construction</option>
-                  <option value="stagnant">Stagnant Sales / Re-branding</option>
+                  <option value="pre-launch">{t('contact.form.stage_options.pre')}</option>
+                  <option value="launch">{t('contact.form.stage_options.launch')}</option>
+                  <option value="construction">{t('contact.form.stage_options.const')}</option>
+                  <option value="stagnant">{t('contact.form.stage_options.stagnant')}</option>
                 </select>
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs uppercase tracking-widest text-white/40 ml-1">What do you need help with?</label>
+                <label className="text-xs uppercase tracking-widest text-white/40 ml-1">{t('contact.form.needs')}</label>
                 <textarea 
                   className="input-field min-h-[120px] resize-none" 
-                  placeholder="Tell us about your project goals..."
+                  placeholder={t('contact.form.needs_placeholder')}
                   value={formData.needs}
                   onChange={e => setFormData({...formData, needs: e.target.value})}
                 ></textarea>
               </div>
 
               <button type="submit" className="w-full btn-primary mt-4">
-                Request Your Free Audit
+                {t('contact.form.submit')}
               </button>
               <p className="text-[10px] text-center text-white/20 uppercase tracking-widest">
-                By submitting, you agree to our privacy policy.
+                {t('contact.form.privacy')}
               </p>
             </form>
           </div>
@@ -642,20 +769,21 @@ const FormSection = () => {
 };
 
 const FAQ = () => {
+  const { t } = useTranslation();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [
-    { q: "Do you work only with large developments?", a: "We work with projects of all sizes, from boutique 10-unit developments to large master-planned communities. What matters is the commitment to quality and strategic positioning." },
-    { q: "Can you work alongside our internal team?", a: "Absolutely. We often act as a strategic layer, providing the high-level branding, performance strategy, and creative direction that internal teams can then execute or manage alongside us." },
-    { q: "Can you help if we already have branding or a website?", a: "Yes. We can audit your current assets and identify where the conversion leaks are. We can either improve what you have or build a more robust system from scratch." },
-    { q: "Do you handle both creative and performance marketing?", a: "Yes. We believe branding without performance is a waste of money, and performance without branding is a waste of leads. We integrate both for a cohesive funnel." },
-    { q: "Can you support project launches and pre-sale campaigns?", a: "This is our specialty. We build the momentum needed for successful 'Friends & Family' phases and official launches to ensure high absorption rates from day one." }
+    { q: t('faq.q1.q'), a: t('faq.q1.a') },
+    { q: t('faq.q2.q'), a: t('faq.q2.a') },
+    { q: t('faq.q3.q'), a: t('faq.q3.a') },
+    { q: t('faq.q4.q'), a: t('faq.q4.a') },
+    { q: t('faq.q5.q'), a: t('faq.q5.a') }
   ];
 
   return (
     <section className="section-padding">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">Strategic Questions.</h2>
+        <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">{t('faq.title')}</h2>
         <div className="space-y-4">
           {faqs.map((f, i) => (
             <div key={i} className="glass rounded-2xl overflow-hidden">
@@ -687,6 +815,7 @@ const FAQ = () => {
 };
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <footer className="bg-brand-dark border-t border-white/5 pt-20 pb-10">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -701,16 +830,16 @@ const Footer = () => {
               />
             </div>
             <p className="text-white/40 max-w-sm leading-relaxed">
-              A strategic boutique agency in Los Cabos dedicated to elevating real estate developments through high-end branding, cinematic production, and performance marketing.
+              {t('footer.desc')}
             </p>
           </div>
           <div>
-            <h4 className="font-bold mb-6 uppercase text-xs tracking-widest text-brand-gold">Navigation</h4>
+            <h4 className="font-bold mb-6 uppercase text-xs tracking-widest text-brand-gold">{t('footer.nav')}</h4>
             <ul className="space-y-4 text-sm text-white/60">
-              <li><a href="#" className="hover:text-white transition-colors">Home</a></li>
-              <li><a href="#problem" className="hover:text-white transition-colors">The Gap</a></li>
-              <li><a href="#solution" className="hover:text-white transition-colors">Solutions</a></li>
-              <li><a href="#process" className="hover:text-white transition-colors">Method</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">{t('nav.home')}</a></li>
+              <li><a href="#problem" className="hover:text-white transition-colors">{t('nav.gap')}</a></li>
+              <li><a href="#solution" className="hover:text-white transition-colors">{t('nav.solutions')}</a></li>
+              <li><a href="#process" className="hover:text-white transition-colors">{t('nav.method')}</a></li>
             </ul>
           </div>
           <div>
@@ -738,6 +867,7 @@ const Footer = () => {
 // --- Main App ---
 
 export default function App() {
+  const { t } = useTranslation();
   return (
     <div className="selection:bg-brand-gold selection:text-white">
       <Navbar />
@@ -762,7 +892,7 @@ export default function App() {
         className="fixed bottom-6 left-6 right-6 z-40 md:hidden"
       >
         <a href="#contact" className="w-full btn-primary shadow-2xl flex items-center justify-center gap-2">
-          Request Audit <ArrowRight size={18} />
+          {t('audit.cta')} <ArrowRight size={18} />
         </a>
       </motion.div>
     </div>
