@@ -91,20 +91,20 @@ const Hero = () => {
               Strategic Real Estate Marketing • Los Cabos
             </span>
             <h1 className="text-5xl md:text-8xl font-bold leading-[0.9] mb-8 text-gradient">
-              Your development <br />
-              <span className="italic font-serif font-normal">deserves</span> better <br />
-              presentation.
+              Better presentation. <br />
+              Better positioning. <br />
+              <span className="italic font-serif font-normal">Better</span> leads.
             </h1>
             <p className="text-xl md:text-2xl text-white/60 max-w-2xl mb-12 leading-relaxed">
-              High-value projects in Los Cabos often underperform not because of the product, but because of how they are positioned. We bridge the gap between architecture and sales.
+              Motion helps developers with branding, sales materials, websites, visual production, paid campaigns, and tracking to create a stronger lead generation system.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6">
               <a href="#audit" className="btn-primary flex items-center justify-center gap-2">
-                Request Project Audit <ArrowRight size={18} />
+                Get a Free Development Marketing Audit <ArrowRight size={18} />
               </a>
               <a href="#solution" className="btn-secondary flex items-center justify-center">
-                Explore Our Solutions
+                How We Help
               </a>
             </div>
           </motion.div>
@@ -132,9 +132,9 @@ const Hero = () => {
 const ProblemSection = () => {
   const problems = [
     { title: "Weak Branding", desc: "Generic identities that fail to resonate with premium buyers." },
-    { title: "Outdated Sales Tools", desc: "Static brochures and slow websites that kill momentum." },
+    { title: "Generic Sales Materials", desc: "Static brochures and outdated tools that kill momentum." },
     { title: "Low-Quality Leads", desc: "High volume, zero conversion. Marketing that misses the target." },
-    { title: "Disconnected Strategy", desc: "Branding, ads, and sales teams working in silos." }
+    { title: "Disconnected Campaigns", desc: "Creative work and paid traffic working in silos without tracking." }
   ];
 
   return (
@@ -144,10 +144,10 @@ const ProblemSection = () => {
           <div>
             <span className="text-brand-gold font-display font-bold text-sm uppercase tracking-widest mb-4 block">The Challenge</span>
             <h2 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">
-              Why great developments <br /> fail to sell out fast.
+              Why strong developments <br /> still struggle to generate <br /> quality leads.
             </h2>
             <p className="text-lg text-white/50 mb-8 leading-relaxed">
-              Most developers focus 99% on the brick and mortar, leaving the marketing as an afterthought. This creates a perception gap that devalues your project before the first showroom visit.
+              Most developers focus 99% on the brick and mortar, leaving the funnel as an afterthought. A strong project with a weak funnel will always underperform in a competitive market.
             </p>
             <div className="space-y-4">
               {problems.map((p, i) => (
@@ -192,36 +192,54 @@ const ProblemSection = () => {
 };
 
 const SolutionSection = () => {
-  const services = [
-    { icon: <Target />, title: "Strategic Branding", desc: "Naming, positioning, and visual identity that commands premium pricing." },
-    { icon: <Globe />, title: "High-Performance Web", desc: "Interactive landing pages and websites designed for conversion, not just looks." },
-    { icon: <Zap />, title: "Digital Growth", desc: "Precision Meta and Google Ads campaigns targeting high-net-worth individuals." },
-    { icon: <Camera />, title: "Visual Production", desc: "Cinematic video and photography that tells the story of the lifestyle, not just the space." },
-    { icon: <Layers />, title: "Sales Enablement", desc: "Broker kits, WhatsApp materials, and showroom visuals that close the deal." },
-    { icon: <BarChart3 />, title: "Marketing Funnels", desc: "Complete lead-to-sale automation and tracking for real estate developers." }
+  const serviceGroups = [
+    {
+      title: "Brand & Positioning",
+      items: ["Branding", "Messaging", "Project story and value proposition"]
+    },
+    {
+      title: "Sales Materials",
+      items: ["Sales presentations", "Mobile sales presentations", "Brochures / PDFs", "Broker kits", "WhatsApp-ready materials"]
+    },
+    {
+      title: "Digital Presence",
+      items: ["Landing pages", "Full websites", "SEO structure", "Lead capture funnels"]
+    },
+    {
+      title: "Visual Production",
+      items: ["Photography", "Video", "Drone", "Launch content", "Lifestyle visual direction"]
+    },
+    {
+      title: "Performance & Tracking",
+      items: ["Meta Ads", "Google Ads", "Retargeting", "Conversion tracking", "Lead attribution", "Funnel optimization"]
+    }
   ];
 
   return (
     <section id="solution" className="relative overflow-hidden">
       <div className="section-padding">
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <span className="text-brand-gold font-display font-bold text-sm uppercase tracking-widest mb-4 block">Our Solutions</span>
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">The Complete Ecosystem.</h2>
-          <p className="text-lg text-white/50">We don't just provide services; we build the infrastructure your sales team needs to succeed.</p>
+          <span className="text-brand-gold font-display font-bold text-sm uppercase tracking-widest mb-4 block">How We Help</span>
+          <h2 className="text-4xl md:text-6xl font-bold mb-6">How Motion Agency can help.</h2>
+          <p className="text-lg text-white/50">We help developers build the materials, systems, and campaigns needed to present their project more clearly and generate higher-quality leads.</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {services.map((s, i) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {serviceGroups.map((group, i) => (
             <motion.div 
               key={i}
-              whileHover={{ y: -10 }}
+              whileHover={{ y: -5 }}
               className="glass p-10 rounded-3xl group hover:border-brand-gold/50 transition-all duration-500"
             >
-              <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-8 text-brand-gold group-hover:bg-brand-gold group-hover:text-white transition-all duration-500">
-                {s.icon}
-              </div>
-              <h3 className="text-2xl font-bold mb-4">{s.title}</h3>
-              <p className="text-white/40 leading-relaxed">{s.desc}</p>
+              <h3 className="text-2xl font-bold mb-6 text-brand-gold">{group.title}</h3>
+              <ul className="space-y-3">
+                {group.items.map((item, idx) => (
+                  <li key={idx} className="text-white/60 flex items-center gap-3 text-sm">
+                    <div className="w-1 h-1 rounded-full bg-brand-gold/50" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </motion.div>
           ))}
         </div>
@@ -232,17 +250,28 @@ const SolutionSection = () => {
 
 const OutcomesSection = () => {
   const outcomes = [
+    "Stronger first impression",
+    "More professional perception",
     "Clearer market positioning",
-    "Stronger first impressions",
-    "Premium buyer trust",
-    "Higher lead quality",
-    "Cohesive sales process",
-    "Faster pre-sale sell-outs"
+    "Better sales tools for brokers",
+    "Improved lead capture",
+    "Higher-quality inquiries",
+    "Full lead attribution clarity"
   ];
 
   return (
-    <section className="bg-white text-brand-dark">
-      <div className="section-padding">
+    <section className="bg-white text-brand-dark overflow-hidden">
+      <div className="section-padding relative">
+        {/* Subtle background logo for brand reinforcement */}
+        <div className="absolute top-10 right-10 opacity-[0.03] pointer-events-none">
+          <img 
+            src="https://res.cloudinary.com/dr78wne7t/image/upload/q_auto/f_auto/v1775596558/logo_MOTIONAGENCY-03_1_tntlu2.png" 
+            alt="Motion Agency Logo Watermark" 
+            className="w-64 h-auto"
+            referrerPolicy="no-referrer"
+          />
+        </div>
+
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <div className="order-2 md:order-1">
             <div className="grid grid-cols-2 gap-4">
@@ -255,9 +284,17 @@ const OutcomesSection = () => {
             </div>
           </div>
           <div className="order-1 md:order-2">
-            <h2 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">
-              We build outcomes, <br /> not just deliverables.
-            </h2>
+            <div className="mb-8">
+              <img 
+                src="https://res.cloudinary.com/dr78wne7t/image/upload/q_auto/f_auto/v1775596558/logo_MOTIONAGENCY-03_1_tntlu2.png" 
+                alt="Motion Agency Black Logo" 
+                className="h-6 w-auto mb-6 opacity-80"
+                referrerPolicy="no-referrer"
+              />
+              <h2 className="text-4xl md:text-6xl font-bold leading-tight">
+                What this improves <br /> for your project.
+              </h2>
+            </div>
             <div className="space-y-4">
               {outcomes.map((o, i) => (
                 <div key={i} className="flex items-center gap-4 py-3 border-b border-brand-dark/10">
@@ -267,8 +304,58 @@ const OutcomesSection = () => {
               ))}
             </div>
             <button className="mt-12 btn-primary !bg-brand-dark !text-white hover:!bg-brand-gold">
-              See How We Do It
+              See Our Method
             </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const PerformanceSection = () => {
+  return (
+    <section className="bg-brand-gray border-y border-white/5">
+      <div className="section-padding">
+        <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div>
+            <span className="text-brand-gold font-display font-bold text-sm uppercase tracking-widest mb-4 block">Performance First</span>
+            <h2 className="text-4xl md:text-6xl font-bold mb-8">Built for presentation <br /> and performance.</h2>
+            <p className="text-lg text-white/50 leading-relaxed mb-8">
+              We connect high-end creative work with precision-targeted paid traffic. Our systems ensure every lead is tracked, attributed, and optimized for maximum ROI.
+            </p>
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <p className="text-2xl font-bold text-white mb-2">100%</p>
+                <p className="text-xs text-white/40 uppercase tracking-widest">Lead Attribution</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-white mb-2">Real-time</p>
+                <p className="text-xs text-white/40 uppercase tracking-widest">Funnel Optimization</p>
+              </div>
+            </div>
+          </div>
+          <div className="glass p-10 rounded-3xl border-brand-gold/20">
+            <div className="space-y-6">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold">
+                  <Zap size={20} />
+                </div>
+                <p className="font-medium">Meta & Google Ads Integration</p>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold">
+                  <Target size={20} />
+                </div>
+                <p className="font-medium">Precision Retargeting</p>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold">
+                  <BarChart3 size={20} />
+                </div>
+                <p className="font-medium">Advanced Conversion Tracking</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -293,43 +380,29 @@ const LeadMagnet = () => {
         <div className="glass p-12 md:p-20 rounded-[3rem] text-center max-w-5xl mx-auto border-brand-gold/20">
           <span className="text-brand-gold font-display font-bold text-sm uppercase tracking-widest mb-6 block">Limited Opportunity</span>
           <h2 className="text-4xl md:text-7xl font-bold mb-8 text-gradient">
-            Get a Strategic <br /> Marketing Audit.
+            Request a Free Project <br /> Marketing Audit.
           </h2>
           <p className="text-xl text-white/60 max-w-2xl mx-auto mb-12">
-            We will analyze your current development's positioning, digital presence, and sales funnel. No generic advice—just a high-level review of your commercial potential.
+            We will analyze your current development's positioning and funnel to identify growth opportunities.
           </p>
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-            <div className="flex items-center gap-4 text-left">
-              <div className="w-12 h-12 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold">
-                <BarChart3 size={24} />
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-left mb-16">
+            {[
+              "Branding and positioning review",
+              "Sales presentation review",
+              "Website / landing page review",
+              "Lead generation observations",
+              "Paid traffic opportunities",
+              "Action points tailored to the project"
+            ].map((item, i) => (
+              <div key={i} className="flex items-center gap-3 text-sm text-white/70">
+                <CheckCircle2 className="text-brand-gold shrink-0" size={18} />
+                {item}
               </div>
-              <div>
-                <p className="font-bold">Funnel Review</p>
-                <p className="text-xs text-white/40">Identify conversion leaks</p>
-              </div>
-            </div>
-            <div className="w-px h-12 bg-white/10 hidden md:block" />
-            <div className="flex items-center gap-4 text-left">
-              <div className="w-12 h-12 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold">
-                <Target size={24} />
-              </div>
-              <div>
-                <p className="font-bold">Positioning Audit</p>
-                <p className="text-xs text-white/40">Brand vs. Market fit</p>
-              </div>
-            </div>
-            <div className="w-px h-12 bg-white/10 hidden md:block" />
-            <div className="flex items-center gap-4 text-left">
-              <div className="w-12 h-12 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold">
-                <Zap size={24} />
-              </div>
-              <div>
-                <p className="font-bold">Ads Performance</p>
-                <p className="text-xs text-white/40">Lead quality analysis</p>
-              </div>
-            </div>
+            ))}
           </div>
-          <button className="mt-16 btn-primary">
+
+          <button className="btn-primary">
             Claim Your Free Audit
           </button>
         </div>
@@ -340,12 +413,12 @@ const LeadMagnet = () => {
 
 const ProcessSection = () => {
   const steps = [
-    { num: "01", title: "Analyze", desc: "Deep dive into the project, market, and competition." },
+    { num: "01", title: "Review", desc: "Deep dive into your current materials and funnel." },
     { num: "02", title: "Position", desc: "Crafting the unique narrative that justifies premium value." },
-    { num: "03", title: "Design", desc: "Building the visual and digital ecosystem for the brand." },
-    { num: "04", title: "Build", desc: "Launching high-conversion funnels and sales tools." },
-    { num: "05", title: "Launch", desc: "Aggressive market entry with precision-targeted ads." },
-    { num: "06", title: "Optimize", desc: "Continuous improvement based on real sales data." }
+    { num: "03", title: "Build", desc: "Developing the sales tools and digital infrastructure." },
+    { num: "04", title: "Launch", desc: "Market entry with precision-targeted campaigns." },
+    { num: "05", title: "Track", desc: "Full attribution setup to monitor every lead." },
+    { num: "06", title: "Optimize", desc: "Continuous improvement based on real performance data." }
   ];
 
   return (
@@ -354,9 +427,9 @@ const ProcessSection = () => {
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
           <div className="max-w-2xl">
             <span className="text-brand-gold font-display font-bold text-sm uppercase tracking-widest mb-4 block">The Method</span>
-            <h2 className="text-4xl md:text-6xl font-bold">A refined process for <br /> predictable results.</h2>
+            <h2 className="text-4xl md:text-6xl font-bold">How we improve your <br /> lead generation system.</h2>
           </div>
-          <p className="text-white/40 max-w-xs text-right">We don't guess. We follow a strategic framework designed for real estate conversion.</p>
+          <p className="text-white/40 max-w-xs text-right">A strategic framework designed for real estate conversion and tracking.</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-y-16 gap-x-12">
@@ -382,16 +455,16 @@ const ProcessSection = () => {
 
 const CredibilitySection = () => {
   const projects = [
-    { name: "The Wellness Residences", type: "Luxury Residential", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=800" },
-    { name: "Azure Bay", type: "Boutique Development", img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800" },
-    { name: "Skyline Lofts", type: "Urban Living", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800" }
+    { name: "The Wellness Residences", type: "Marketing Assets", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=800" },
+    { name: "Azure Bay", type: "Sales Tools", img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800" },
+    { name: "Skyline Lofts", type: "Digital Funnel", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800" }
   ];
 
   return (
     <section className="section-padding">
       <div className="text-center mb-20">
-        <h2 className="text-4xl md:text-6xl font-bold mb-6">Selected Projects.</h2>
-        <p className="text-white/40">We work with developers who value quality and strategic growth.</p>
+        <h2 className="text-4xl md:text-6xl font-bold mb-6">Selected Work.</h2>
+        <p className="text-white/40">Strategic assets built for high-value real estate projects.</p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-8">
@@ -409,7 +482,7 @@ const CredibilitySection = () => {
                 referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
-                <button className="w-full py-3 glass rounded-xl text-sm font-bold uppercase tracking-widest">View Case Study</button>
+                <button className="w-full py-3 glass rounded-xl text-sm font-bold uppercase tracking-widest">View Project</button>
               </div>
             </div>
             <h3 className="text-xl font-bold">{p.name}</h3>
@@ -442,9 +515,9 @@ const FormSection = () => {
       <div className="section-padding">
         <div className="grid md:grid-cols-2 gap-20">
           <div>
-            <h2 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">Ready to <br /> transform your <br /> sales?</h2>
+            <h2 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">Let's review <br /> your project.</h2>
             <p className="text-lg text-white/50 mb-12">
-              Fill out the form to request your strategic audit or schedule a discovery call with our team.
+              Fill out the form to request your free strategic audit or schedule a discovery call with our team.
             </p>
             
             <div className="space-y-8">
@@ -518,7 +591,7 @@ const FormSection = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs uppercase tracking-widest text-white/40 ml-1">Development Name</label>
+                  <label className="text-xs uppercase tracking-widest text-white/40 ml-1">Company or Development Name</label>
                   <input 
                     type="text" 
                     required
@@ -555,7 +628,7 @@ const FormSection = () => {
               </div>
 
               <button type="submit" className="w-full btn-primary mt-4">
-                Request Strategy Session
+                Request Your Free Audit
               </button>
               <p className="text-[10px] text-center text-white/20 uppercase tracking-widest">
                 By submitting, you agree to our privacy policy.
@@ -572,11 +645,11 @@ const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [
-    { q: "Do you only work with large developments?", a: "We work with projects of all sizes, from boutique 10-unit developments to large master-planned communities. What matters is the commitment to quality and strategic positioning." },
-    { q: "Can you help if we already have an internal marketing team?", a: "Absolutely. We often act as a strategic layer, providing the high-level branding, performance strategy, and creative direction that internal teams can then execute or manage alongside us." },
-    { q: "Do you work on branding and performance too?", a: "Yes. We believe branding without performance is a waste of money, and performance without branding is a waste of leads. We integrate both for a cohesive funnel." },
-    { q: "Can you support launch and pre-sale campaigns?", a: "This is our specialty. We build the momentum needed for successful 'Friends & Family' phases and official launches to ensure high absorption rates from day one." },
-    { q: "Do you only build websites or can you help with the full strategy?", a: "We are a full-service strategic partner. While we build world-class websites, they are just one part of a complete marketing ecosystem that includes strategy, content, and ads." }
+    { q: "Do you work only with large developments?", a: "We work with projects of all sizes, from boutique 10-unit developments to large master-planned communities. What matters is the commitment to quality and strategic positioning." },
+    { q: "Can you work alongside our internal team?", a: "Absolutely. We often act as a strategic layer, providing the high-level branding, performance strategy, and creative direction that internal teams can then execute or manage alongside us." },
+    { q: "Can you help if we already have branding or a website?", a: "Yes. We can audit your current assets and identify where the conversion leaks are. We can either improve what you have or build a more robust system from scratch." },
+    { q: "Do you handle both creative and performance marketing?", a: "Yes. We believe branding without performance is a waste of money, and performance without branding is a waste of leads. We integrate both for a cohesive funnel." },
+    { q: "Can you support project launches and pre-sale campaigns?", a: "This is our specialty. We build the momentum needed for successful 'Friends & Family' phases and official launches to ensure high absorption rates from day one." }
   ];
 
   return (
@@ -673,6 +746,7 @@ export default function App() {
         <ProblemSection />
         <SolutionSection />
         <OutcomesSection />
+        <PerformanceSection />
         <LeadMagnet />
         <ProcessSection />
         <CredibilitySection />
