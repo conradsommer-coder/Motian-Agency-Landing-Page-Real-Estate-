@@ -90,8 +90,9 @@ const Navbar = () => {
             )}
           </button>
 
-          <a href="#audit" className="btn-secondary py-2 px-6 text-xs">
+          <a href="#audit" className="btn-secondary !py-2 !px-6 !text-xs group">
             {t('audit.cta')}
+            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </a>
         </div>
 
@@ -161,10 +162,11 @@ const Navbar = () => {
                 
                 <a 
                   href="#audit" 
-                  className="btn-primary text-center py-5 text-lg"
+                  className="btn-primary !py-5 !text-lg group"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {t('audit.cta')}
+                  <ArrowRight size={24} className="group-hover:translate-x-1 transition-transform" />
                 </a>
               </motion.div>
             </div>
@@ -234,11 +236,11 @@ const Hero = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6">
-              <a href="#audit" className="btn-primary flex items-center justify-center gap-2">
-                {t('hero.cta1')} <ArrowRight size={18} />
+              <a href="#audit" className="btn-primary group">
+                {t('hero.cta1')} <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </a>
-              <a href="#solution" className="btn-secondary flex items-center justify-center">
-                {t('hero.cta2')}
+              <a href="#solution" className="btn-secondary group">
+                {t('hero.cta2')} <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform opacity-0 group-hover:opacity-100" />
               </a>
             </div>
           </motion.div>
@@ -432,8 +434,9 @@ const OutcomesSection = () => {
                 </div>
               ))}
             </div>
-            <button className="mt-12 btn-primary !bg-brand-dark !text-white hover:!bg-brand-gold">
+            <button className="mt-12 btn-primary !bg-brand-dark !text-white hover:!bg-brand-gold group">
               {t('outcomes.cta')}
+              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
         </div>
@@ -526,8 +529,9 @@ const LeadMagnet = () => {
             ))}
           </div>
 
-          <button className="btn-primary">
+          <button className="btn-primary group">
             {t('audit.cta')}
+            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
       </div>
@@ -754,8 +758,9 @@ const FormSection = () => {
                 ></textarea>
               </div>
 
-              <button type="submit" className="w-full btn-primary mt-4">
+              <button type="submit" className="w-full btn-primary mt-4 group">
                 {t('contact.form.submit')}
+                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </button>
               <p className="text-[10px] text-center text-white/20 uppercase tracking-widest">
                 {t('contact.form.privacy')}
@@ -891,8 +896,8 @@ export default function App() {
         animate={{ y: 0 }}
         className="fixed bottom-6 left-6 right-6 z-40 md:hidden"
       >
-        <a href="#contact" className="w-full btn-primary shadow-2xl flex items-center justify-center gap-2">
-          {t('audit.cta')} <ArrowRight size={18} />
+        <a href="#contact" className="w-full btn-primary shadow-2xl !py-5">
+          {t('audit.cta')} <ArrowRight size={20} />
         </a>
       </motion.div>
     </div>
